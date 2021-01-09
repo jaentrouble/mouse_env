@@ -109,8 +109,8 @@ public class PlayerController : MonoBehaviour
         RenCapture.MoveNext();
 
         
-        // DEBUG
-        setupSocket();
+        // // DEBUG
+        // setupSocket();
 
         control_json = new Control_JSON(0.0f, 0.0f);
         gameinfo_json = new GameInfo_JSON();
@@ -127,38 +127,38 @@ public class PlayerController : MonoBehaviour
         {
             Time.fixedDeltaTime = Time.deltaTime;
         }
-        while (true)
-        {
-            receive();
-            if (control_json.render)
-            {
-                control_json.render = false;
-                send_render();
-            }
-            else
-            {
-                if (control_json.reset)
-                {
-                    control_json.reset=false;
-                    setNewPos();
-                    apple_manager.reset_apples();
-                }
-                break;
-            }
-        }
+        // while (true)
+        // {
+        //     receive();
+        //     if (control_json.render)
+        //     {
+        //         control_json.render = false;
+        //         send_render();
+        //     }
+        //     else
+        //     {
+        //         if (control_json.reset)
+        //         {
+        //             control_json.reset=false;
+        //             setNewPos();
+        //             apple_manager.reset_apples();
+        //         }
+        //         break;
+        //     }
+        // }
         
-        transform.Rotate(0,control_json.turn,0);
-        check_col();
-        transform.Translate(0,0,control_json.move);
+        // transform.Rotate(0,control_json.turn,0);
+        // check_col();
+        // transform.Translate(0,0,control_json.move);
         
 
-        send();
-        // Reset reward after sending
-        gameinfo_json.reward = 0.0f;
+        // send();
+        // // Reset reward after sending
+        // gameinfo_json.reward = 0.0f;
 
-        // //DEBUG
-        // transform.Translate(0,0,0.2f);
-        // transform.Rotate(0,UnityEngine.Random.Range(-20.0f,20.0f),0);
+        //DEBUG
+        transform.Translate(0,0,0.2f);
+        transform.Rotate(0,UnityEngine.Random.Range(-20.0f,20.0f),0);
         // Debug.Log(gameinfo_json.reward);
         
 
