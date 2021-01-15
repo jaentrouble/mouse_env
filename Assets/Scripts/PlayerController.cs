@@ -153,8 +153,9 @@ public class PlayerController : MonoBehaviour
         
 
         // send();
-        // // Reset reward after sending
-        // gameinfo_json.reward = 0.0f;
+        
+        // Reset reward after sending
+        gameinfo_json.reward = 0.0f;
 
         //DEBUG
         transform.Translate(0,0,0.2f);
@@ -354,6 +355,11 @@ public class PlayerController : MonoBehaviour
                 apple_script.hit_mouse();
             }
         }
+    }
+
+    public void GiveReward(float reward)
+    {
+        this.gameinfo_json.reward += reward;
     }
 
 }
