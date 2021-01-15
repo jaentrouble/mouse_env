@@ -16,6 +16,8 @@ public class ZoneScript : MonoBehaviour
     private bool blue_on = false;
     private bool isWaiting = false;
     private float wait_start;
+    private float in_start;
+    private bool is_in = false;
 
     void Start()
     {
@@ -111,6 +113,11 @@ public class ZoneScript : MonoBehaviour
         if (isWaiting)
         {
             this.LedOn("green");
+            if (!is_in)
+            {
+                is_in = true;
+                in_start = Time.time;
+            }
         }
     }
 }
