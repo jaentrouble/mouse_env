@@ -1269,7 +1269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   applePrefab: {fileID: 8053736358589573694, guid: c977423c76bd40448813ad8f33c6c877,
     type: 3}
-  apple_num: 10
+  apple_num: 1
   max_pos: {x: 8.5, y: 1, z: 8.5}
   min_pos: {x: -8.5, y: 1, z: -8.5}
   apple_offset: 2.5
