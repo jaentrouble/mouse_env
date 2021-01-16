@@ -29,11 +29,13 @@ public class ZoneManager : MonoBehaviour
     }
     public void StartWaiting()
     {
-        AllOff("all");
         // Select zone farther away
         Transform farthest = this.transform.GetChild(0);
         foreach(Transform zt in this.transform)
         {
+            // Reset all zones
+            // Make sure only one zone is waiting
+            zt.GetComponent<ZoneScript>().StopWaiting();
             if (Vector3.Distance(farthest.position, player.transform.position)<
                 Vector3.Distance(zt.position, player.transform.position))
             {

@@ -54,6 +54,12 @@ public class ZoneScript : MonoBehaviour
         LedOn("red");
     }
 
+    public void StopWaiting()
+    {
+        this.isWaiting = false;
+        LedOff("all");
+    }
+
     public void LedOn(string color)
     {
         switch (color)
