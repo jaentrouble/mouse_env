@@ -22,8 +22,6 @@ public class ZoneScript : MonoBehaviour
     private float in_start;
     private bool is_in = false;
 
-    private int FrameCount = 0;
-
     void Start()
     {
         red_ren = transform.Find("red").gameObject.GetComponent<Renderer>();
@@ -41,16 +39,26 @@ public class ZoneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.FrameCount ++;
-        if (this.FrameCount % 30 == 0)
+        if (Time.frameCount % 30 == 0)
         {
-            this.LedOff("green");
+            this.LedOff("all");
             this.LedOn("red");
         }
-        else if (this.FrameCount % 40 == 0)
+        else if (Time.frameCount % 40 == 0)
         {
-            this.LedOff("red");
+            this.LedOff("all");
             this.LedOn("green");
+        }
+        else if (Time.frameCount % 50 == 0)
+        {
+            this.LedOff("all");
+            this.LedOn("blue");
+        }
+
+        if (isWaiting & (Time.frameCount-wait_start>chanceFrames))
+        {
+            this.LedOff("all");
+            this.isWaiting = false;
         }
     }
 
@@ -141,7 +149,7 @@ public class ZoneScript : MonoBehaviour
     public void StartWaiting()
     {
         isWaiting = true;
-        wait_start = this.FrameCount;
+        wait_start = Time.frameCount;
         this.LedOn("red");
     }
 
@@ -153,24 +161,28 @@ public class ZoneScript : MonoBehaviour
             if (!is_in)
             {
                 is_in = true;
-                in_start = this.FrameCount;
-            } else
+                in_start = Time.frameCount;
+            } else if (Time.frameCount - in_start > requireFrames)
             {
-                if (this.FrameCount - in_start > requireFrames)
-                {
-                    this.LedOn("blue");
-                    this.LedOff("red");
-                    this.LedOff("green");
-                    // Drop food
-                    p.nutellaManager.newNutella(1);
-
-                }
+                this.LedOn("blue");
+                this.LedOff("red");
+                this.LedOff("green");
+                // Drop food
+                p.nutellaManager.newNutella(1);
+                this.isWaiting = false;
             }
         }
     }
 
     public void NotInZone(GameObject player)
     {
-
+        if (isWaiting)
+        {
+            this.LedOff("green");
+            if (is_in)
+            {
+                is_in = false;
+            }
+        }
     }
 }
