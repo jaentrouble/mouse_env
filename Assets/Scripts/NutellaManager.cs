@@ -12,6 +12,8 @@ public class NutellaManager : MonoBehaviour
     // to make sure the apple is not spawned on the player
     public GameObject player;
 
+    private List<GameObject> nutellas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,9 +47,18 @@ public class NutellaManager : MonoBehaviour
     {
         for(int i=0;i<numNutella;i++)
         {
-            Instantiate(nutellaPrefab, getNewPos(), nutellaPrefab.transform.rotation);
+            nutellas.Add(
+            Instantiate(nutellaPrefab, getNewPos(), nutellaPrefab.transform.rotation));
         }
         
+    }
+
+    public void clearNutella()
+    {
+        foreach(GameObject nut in nutellas)
+        {
+            Destroy(nut);
+        }
     }
 
 }

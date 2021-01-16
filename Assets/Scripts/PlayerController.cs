@@ -163,9 +163,11 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate() 
     {
         transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
-        transform.localPosition = new Vector3(transform.localPosition.x,
-                                            minPos.y,
-                                            transform.localPosition.z);
+        Vector3 newpos = new Vector3(transform.localPosition.x,
+                                    minPos.y,
+                                    transform.localPosition.z);
+        transform.localPosition = 
+            Vector3.Max(Vector3.Min(newpos,maxPos),minPos);
     }
     void OnApplicationQuit() 
     {
@@ -374,6 +376,7 @@ public class PlayerController : MonoBehaviour
     {
         this.setNewPos();
         zoneManager.GetComponent<ZoneManager>().StartWaiting();
+        nutellaManager.clearNutella();
         this.gameinfo_json = new GameInfo_JSON();
     }
 
