@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ZoneManager : MonoBehaviour
 {
-    public GameObject player;
-    public PlayerController pc;
+    public PlayerController player;
     public float chanceFrames;
     public float requireFrames;
     public bool isWaiting = false;
@@ -19,7 +18,6 @@ public class ZoneManager : MonoBehaviour
             zt.GetComponent<ZoneScript>().zoneManager = this;
         }
 
-        pc = player.GetComponent<PlayerController>();
         //DEBUG
         this.StartWaiting();
     }

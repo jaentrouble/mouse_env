@@ -145,7 +145,7 @@ public class ZoneScript : MonoBehaviour
         }
     }
 
-    public void NotInZone(PlayerController player)
+    public void NotInZone()
     {
         if (zoneManager.isWaiting)
         {

@@ -363,11 +363,11 @@ public class PlayerController : MonoBehaviour
             Bounds zb = zone.gameObject.GetComponent<Collider>().bounds;
             if (zb.Contains(Head.transform.position))
             {
-                zone.gameObject.GetComponent<ZoneScript>().InZone(this);
+                zone.gameObject.GetComponent<ZoneScript>().InZone();
             }
             else
             {
-                zone.gameObject.GetComponent<ZoneScript>().NotInZone(this);
+                zone.gameObject.GetComponent<ZoneScript>().NotInZone();
             }
         }
 

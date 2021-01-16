@@ -566,8 +566,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abae1d0592b927d4eb38e361fcb5147a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   chanceFrames: 900
   requireFrames: 100
+  isWaiting: 0
 --- !u!1 &627644019
 GameObject:
   m_ObjectHideFlags: 0
