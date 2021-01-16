@@ -250,8 +250,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nutellaPrefab: {fileID: 8053736358589573694, guid: 151ce761ecc20e3479a5b16d578a9b23,
     type: 3}
-  max_pos: {x: 10, y: 0.5, z: 10}
-  min_pos: {x: -10, y: 0.5, z: -10}
+  max_pos: {x: 9.5, y: 0.5, z: 9.5}
+  min_pos: {x: -9.5, y: 0.5, z: -9.5}
   nutellaOffset: 2.5
   player: {fileID: 1322501923}
 --- !u!1 &226008689
@@ -569,7 +569,7 @@ MonoBehaviour:
   player: {fileID: 1322501925}
   nutman: {fileID: 132251843}
   chanceFrames: 900
-  requireFrames: 2
+  requireFrames: 30
   rewardNutellaNum: 1
 --- !u!1 &627644019
 GameObject:
