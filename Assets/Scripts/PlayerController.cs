@@ -47,12 +47,15 @@ public class PlayerController : MonoBehaviour
     public Camera cam_obs;
     public Camera cam_render;
 
+    public GameObject zoneManager;
+
     public NutellaManager nutellaManager;
     public float nutellaReward = 10.0f;
 
     public Window_size render_info;
     public Window_size obs_info;
 
+    private GameObject Head;
 
     private Control_JSON control_json;
     private GameInfo_JSON gameinfo_json;
@@ -91,6 +94,8 @@ public class PlayerController : MonoBehaviour
     {
         // // DEBUG
         // Application.targetFrameRate = 10;
+
+        this.Head = transform.Find("Head").gameObject;
 
         rt_obs = new RenderTexture(obs_info.width,obs_info.height,24,RenderTextureFormat.ARGB32);
         cam_obs.targetTexture = rt_obs;
@@ -147,9 +152,11 @@ public class PlayerController : MonoBehaviour
         //     }
         // }
         
-        // transform.Rotate(0,control_json.turn,0);
-        // check_col();
-        // transform.Translate(0,0,control_json.move);
+        control_json.turn=0.5f;
+        control_json.move=0.1f;
+        transform.Rotate(0,control_json.turn,0);
+        check_col();
+        transform.Translate(0,0,control_json.move);
         
 
         // send();
@@ -175,7 +182,7 @@ public class PlayerController : MonoBehaviour
         client.Close();
     }
 
-    private void eat_apple()
+    private void eatNutella()
     {
         gameinfo_json.reward += nutellaReward;
     }
@@ -338,28 +345,32 @@ public class PlayerController : MonoBehaviour
         Rigidbody rb = this.GetComponent<Rigidbody>();
         RaycastHit[] hit = rb.SweepTestAll(
             transform.forward,
-            // DEBUG
             control_json.move
-            // 0.2f        
         );
+
         foreach (RaycastHit h in hit)
         {
             Collider col = h.collider;
-            if (col.gameObject.tag == "Apple")
+            if (col.gameObject.tag == "Nutella")
             {
-                AppleScript apple_script = h.collider.GetComponent<AppleScript>();
-                if (!apple_script.isColliding)
-                {
-                    this.eat_apple();
-                }
-                apple_script.hit_mouse();
+                Destroy(col.gameObject);
+                this.eatNutella();
+            } 
+        }
+
+        foreach (Transform zone in zoneManager.transform)
+        {
+            Bounds zb = zone.gameObject.GetComponent<Collider>().bounds;
+            if (zb.Contains(Head.transform.position))
+            {
+                zone.gameObject.GetComponent<ZoneScript>().InZone(this);
+            }
+            else
+            {
+                zone.gameObject.GetComponent<ZoneScript>().NotInZone(this);
             }
         }
-    }
 
-    public void GiveReward(float reward)
-    {
-        this.gameinfo_json.reward += reward;
     }
 
 }

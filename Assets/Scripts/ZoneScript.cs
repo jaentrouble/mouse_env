@@ -5,8 +5,8 @@ using UnityEngine;
 public class ZoneScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float chanceFrames;
-    public float requireFrames;
+
+    public ZoneManager zoneManager;
 
     private Material red_mat;
     private Material green_mat;
@@ -17,8 +17,6 @@ public class ZoneScript : MonoBehaviour
     private bool red_on = true;
     private bool green_on = true;
     private bool blue_on = true;
-    private bool isWaiting = false;
-    private float wait_start;
     private float in_start;
     private bool is_in = false;
 
@@ -34,32 +32,13 @@ public class ZoneScript : MonoBehaviour
         green_mat.EnableKeyword("_EMISSION");
         blue_mat.EnableKeyword("_EMISSION");
         this.LedOff("all");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.frameCount % 30 == 0)
-        {
-            this.LedOff("all");
-            this.LedOn("red");
-        }
-        else if (Time.frameCount % 40 == 0)
-        {
-            this.LedOff("all");
-            this.LedOn("green");
-        }
-        else if (Time.frameCount % 50 == 0)
-        {
-            this.LedOff("all");
-            this.LedOn("blue");
-        }
 
-        if (isWaiting & (Time.frameCount-wait_start>chanceFrames))
-        {
-            this.LedOff("all");
-            this.isWaiting = false;
-        }
     }
 
     public void LedOn(string color)
@@ -146,37 +125,29 @@ public class ZoneScript : MonoBehaviour
         }
     }
 
-    public void StartWaiting()
-    {
-        isWaiting = true;
-        wait_start = Time.frameCount;
-        this.LedOn("red");
-    }
 
-    public void InZone(PlayerController p)
+    public void InZone()
     {
-        if (isWaiting)
+        if (zoneManager.isWaiting)
         {
             this.LedOn("green");
             if (!is_in)
             {
                 is_in = true;
                 in_start = Time.frameCount;
-            } else if (Time.frameCount - in_start > requireFrames)
+            } else if (Time.frameCount - in_start > zoneManager.requireFrames)
             {
                 this.LedOn("blue");
                 this.LedOff("red");
                 this.LedOff("green");
-                // Drop food
-                p.nutellaManager.newNutella(1);
-                this.isWaiting = false;
+                zoneManager.ReqMet();
             }
         }
     }
 
-    public void NotInZone(GameObject player)
+    public void NotInZone(PlayerController player)
     {
-        if (isWaiting)
+        if (zoneManager.isWaiting)
         {
             this.LedOff("green");
             if (is_in)

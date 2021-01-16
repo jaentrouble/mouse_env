@@ -899,6 +899,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nutella
       objectReference: {fileID: 0}
+    - target: {fileID: 8053736358589573694, guid: 151ce761ecc20e3479a5b16d578a9b23,
+        type: 3}
+      propertyPath: m_TagString
+      value: Nutella
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 151ce761ecc20e3479a5b16d578a9b23, type: 3}
 --- !u!1 &963194225
