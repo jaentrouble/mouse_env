@@ -324,7 +324,7 @@ public class PlayerController : MonoBehaviour
         Vector3 new_pos = new Vector3(
             UnityEngine.Random.Range(minPos.x,maxPos.x),
             minPos.y,
-            UnityEngine.Random.Range(maxPos.z,maxPos.z)
+            UnityEngine.Random.Range(minPos.z,maxPos.z)
         );
         transform.position = new_pos;
     }
