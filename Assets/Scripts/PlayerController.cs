@@ -47,8 +47,8 @@ public class PlayerController : MonoBehaviour
     public Camera cam_obs;
     public Camera cam_render;
 
-    public AppleManager apple_manager;
-    public float apple_reward;
+    public NutellaManager nutellaManager;
+    public float nutellaReward = 10.0f;
 
     public Window_size render_info;
     public Window_size obs_info;
@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour
 
     private void eat_apple()
     {
-        gameinfo_json.reward += apple_reward;
+        gameinfo_json.reward += nutellaReward;
     }
 
     private IEnumerator CaptureObserve()
@@ -326,9 +326,9 @@ public class PlayerController : MonoBehaviour
     public void setNewPos()
     {
         Vector3 new_pos = new Vector3(
-            UnityEngine.Random.Range(apple_manager.min_pos.x,apple_manager.max_pos.x),
+            UnityEngine.Random.Range(nutellaManager.min_pos.x,nutellaManager.max_pos.x),
             transform.position.y,
-            UnityEngine.Random.Range(apple_manager.min_pos.z,apple_manager.max_pos.z)
+            UnityEngine.Random.Range(nutellaManager.min_pos.z,nutellaManager.max_pos.z)
         );
         transform.position = new_pos;
     }
@@ -350,7 +350,7 @@ public class PlayerController : MonoBehaviour
                 AppleScript apple_script = h.collider.GetComponent<AppleScript>();
                 if (!apple_script.isColliding)
                 {
-                    gameinfo_json.reward += apple_reward;
+                    this.eat_apple();
                 }
                 apple_script.hit_mouse();
             }
