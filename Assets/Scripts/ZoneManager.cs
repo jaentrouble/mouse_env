@@ -29,6 +29,7 @@ public class ZoneManager : MonoBehaviour
     }
     public void StartWaiting()
     {
+        AllOff("all");
         // Select zone farther away
         Transform farthest = this.transform.GetChild(0);
         foreach(Transform zt in this.transform)

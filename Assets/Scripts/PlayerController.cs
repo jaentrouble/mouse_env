@@ -93,8 +93,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // // DEBUG
-        // Application.targetFrameRate = 10;
 
         this.Head = transform.Find("Head").gameObject;
 
@@ -114,9 +112,7 @@ public class PlayerController : MonoBehaviour
         RenCapture = CaptureRender();
         RenCapture.MoveNext();
 
-        
-        // // DEBUG
-        // setupSocket();
+        setupSocket();
 
         control_json = new Control_JSON(0.0f, 0.0f);
         gameinfo_json = new GameInfo_JSON();
@@ -133,43 +129,35 @@ public class PlayerController : MonoBehaviour
         {
             Time.fixedDeltaTime = Time.deltaTime;
         }
-        // while (true)
-        // {
-        //     receive();
-        //     if (control_json.render)
-        //     {
-        //         control_json.render = false;
-        //         send_render();
-        //     }
-        //     else
-        //     {
-        //         if (control_json.reset)
-        //         {
-        //             control_json.reset=false;
-        //             setNewPos();
-        //             apple_manager.reset_apples();
-        //         }
-        //         break;
-        //     }
-        // }
+        while (true)
+        {
+            receive();
+            if (control_json.render)
+            {
+                control_json.render = false;
+                send_render();
+            }
+            else
+            {
+                if (control_json.reset)
+                {
+                    control_json.reset=false;
+                    this.resetGame();
+                }
+                break;
+            }
+        }
         
-        control_json.turn=0.5f;
-        control_json.move=0.1f;
+
         transform.Rotate(0,control_json.turn,0);
         check_col();
         transform.Translate(0,0,control_json.move);
         
 
-        // send();
+        send();
         
         // Reset reward after sending
         gameinfo_json.reward = 0.0f;
-
-        //DEBUG
-        // transform.Translate(0,0,0.2f);
-        // transform.Rotate(0,UnityEngine.Random.Range(-20.0f,20.0f),0);
-        // Debug.Log(gameinfo_json.reward);
-        
 
     }
     private void LateUpdate() 
@@ -185,10 +173,6 @@ public class PlayerController : MonoBehaviour
         client.Close();
     }
 
-    private void eatNutella()
-    {
-        gameinfo_json.reward += nutellaReward;
-    }
 
     private IEnumerator CaptureObserve()
     {   
@@ -374,6 +358,23 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+    private void eatNutella()
+    {
+        gameinfo_json.reward += nutellaReward;
+        this.doneGame();
+    }
+
+    private void doneGame()
+    {
+        gameinfo_json.done = true;
+    }
+
+    private void resetGame()
+    {
+        this.setNewPos();
+        zoneManager.GetComponent<ZoneManager>().StartWaiting();
+        this.gameinfo_json = new GameInfo_JSON();
     }
 
 }
