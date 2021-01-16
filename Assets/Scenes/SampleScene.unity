@@ -566,10 +566,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abae1d0592b927d4eb38e361fcb5147a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1322501925}
+  nutman: {fileID: 132251843}
   chanceFrames: 900
   requireFrames: 100
-  isWaiting: 0
+  rewardNutellaNum: 1
 --- !u!1 &627644019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,7 +1313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4479c8b9e1b42a4db9355e1a5e8e852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixed_y: 0.5
+  maxPos: {x: 10, y: 0.5, z: 10}
+  minPos: {x: -10, y: 0.5, z: -10}
   cam_obs: {fileID: 963194227}
   cam_render: {fileID: 131233846}
   zoneManager: {fileID: 403867775}

@@ -43,7 +43,8 @@ public class MessageInfo_JSON
 }
 public class PlayerController : MonoBehaviour
 {
-    public float fixed_y;
+    public Vector3 maxPos;
+    public Vector3 minPos;
     public Camera cam_obs;
     public Camera cam_render;
 
@@ -174,7 +175,9 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate() 
     {
         transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
-        transform.localPosition = new Vector3(transform.localPosition.x,fixed_y,transform.localPosition.z);
+        transform.localPosition = new Vector3(transform.localPosition.x,
+                                            minPos.y,
+                                            transform.localPosition.z);
     }
     void OnApplicationQuit() 
     {
@@ -333,9 +336,9 @@ public class PlayerController : MonoBehaviour
     public void setNewPos()
     {
         Vector3 new_pos = new Vector3(
-            UnityEngine.Random.Range(nutellaManager.min_pos.x,nutellaManager.max_pos.x),
-            transform.position.y,
-            UnityEngine.Random.Range(nutellaManager.min_pos.z,nutellaManager.max_pos.z)
+            UnityEngine.Random.Range(minPos.x,maxPos.x),
+            minPos.y,
+            UnityEngine.Random.Range(maxPos.z,maxPos.z)
         );
         transform.position = new_pos;
     }

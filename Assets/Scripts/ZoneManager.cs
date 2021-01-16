@@ -5,10 +5,10 @@ using UnityEngine;
 public class ZoneManager : MonoBehaviour
 {
     public PlayerController player;
+    public NutellaManager nutman;
     public float chanceFrames;
     public float requireFrames;
-    public bool isWaiting = false;
-    private int wait_start;
+    public int rewardNutellaNum;
 
     // Start is called before the first frame update
     void Start()
@@ -25,22 +25,27 @@ public class ZoneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isWaiting & (Time.frameCount-wait_start>this.chanceFrames))
-        {
-            AllOff("all");
-            this.isWaiting = false;
-        }
+
     }
     public void StartWaiting()
     {
-        isWaiting = true;
-        wait_start = Time.frameCount;
-        AllOn("red");
+        // Select zone farther away
+        Transform farthest = this.transform.GetChild(0);
+        foreach(Transform zt in this.transform)
+        {
+            if (Vector3.Distance(farthest.position, player.transform.position)<
+                Vector3.Distance(zt.position, player.transform.position))
+            {
+                farthest = zt;
+            }
+        }
+        farthest.GetComponent<ZoneScript>().StartWaiting();
+
     }
 
     public void ReqMet()
     {
-
+        nutman.newNutella(this.rewardNutellaNum);
     }
 
     private void AllOn(string color)

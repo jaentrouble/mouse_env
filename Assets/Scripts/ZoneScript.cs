@@ -19,6 +19,8 @@ public class ZoneScript : MonoBehaviour
     private bool blue_on = true;
     private float in_start;
     private bool is_in = false;
+    public bool isWaiting = false;
+    private int wait_start;
 
     void Start()
     {
@@ -38,7 +40,18 @@ public class ZoneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isWaiting & (Time.frameCount-wait_start>zoneManager.chanceFrames))
+        {
+            LedOff("all");
+            this.isWaiting = false;
+        }
+    }
 
+    public void StartWaiting()
+    {
+        this.isWaiting = true;
+        this.wait_start = Time.frameCount;
+        LedOn("red");
     }
 
     public void LedOn(string color)
@@ -128,7 +141,7 @@ public class ZoneScript : MonoBehaviour
 
     public void InZone()
     {
-        if (zoneManager.isWaiting)
+        if (isWaiting)
         {
             this.LedOn("green");
             if (!is_in)
@@ -141,13 +154,14 @@ public class ZoneScript : MonoBehaviour
                 this.LedOff("red");
                 this.LedOff("green");
                 zoneManager.ReqMet();
+                isWaiting = false;
             }
         }
     }
 
     public void NotInZone()
     {
-        if (zoneManager.isWaiting)
+        if (isWaiting)
         {
             this.LedOff("green");
             if (is_in)
