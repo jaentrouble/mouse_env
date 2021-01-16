@@ -145,7 +145,7 @@ public class ZoneScript : MonoBehaviour
         this.LedOn("red");
     }
 
-    public void InZone(GameObject player)
+    public void InZone(PlayerController p)
     {
         if (isWaiting)
         {
@@ -159,7 +159,11 @@ public class ZoneScript : MonoBehaviour
                 if (this.FrameCount - in_start > requireFrames)
                 {
                     this.LedOn("blue");
-                    // TODO:Drop food
+                    this.LedOff("red");
+                    this.LedOff("green");
+                    // Drop food
+                    p.nutellaManager.newNutella(1);
+
                 }
             }
         }
