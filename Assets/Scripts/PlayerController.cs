@@ -158,8 +158,8 @@ public class PlayerController : MonoBehaviour
         gameinfo_json.reward = 0.0f;
 
         //DEBUG
-        transform.Translate(0,0,0.2f);
-        transform.Rotate(0,UnityEngine.Random.Range(-20.0f,20.0f),0);
+        // transform.Translate(0,0,0.2f);
+        // transform.Rotate(0,UnityEngine.Random.Range(-20.0f,20.0f),0);
         // Debug.Log(gameinfo_json.reward);
         
 
