@@ -50,6 +50,7 @@ public class ZoneScript : MonoBehaviour
     public void StartWaiting()
     {
         this.isWaiting = true;
+        this.is_in = false;
         this.wait_start = Time.frameCount;
         LedOn("red");
     }
