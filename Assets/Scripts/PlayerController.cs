@@ -331,22 +331,6 @@ public class PlayerController : MonoBehaviour
     
     private void check_col()
     {
-        Rigidbody rb = this.GetComponent<Rigidbody>();
-        RaycastHit[] hit = rb.SweepTestAll(
-            transform.forward,
-            control_json.move
-        );
-
-        foreach (RaycastHit h in hit)
-        {
-            Collider col = h.collider;
-            if (col.gameObject.tag == "Nutella")
-            {
-                Destroy(col.gameObject);
-                this.eatNutella();
-            } 
-        }
-
         foreach (Transform zone in zoneManager.transform)
         {
             Bounds zb = zone.gameObject.GetComponent<Collider>().bounds;
@@ -361,7 +345,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    private void eatNutella()
+    public void eatNutella()
     {
         gameinfo_json.reward += nutellaReward;
         this.doneGame();
@@ -375,8 +359,8 @@ public class PlayerController : MonoBehaviour
     private void resetGame()
     {
         this.setNewPos();
-        zoneManager.GetComponent<ZoneManager>().StartWaiting();
         nutellaManager.clearNutella();
+        zoneManager.GetComponent<ZoneManager>().StartWaiting();
         this.gameinfo_json = new GameInfo_JSON();
     }
 

@@ -18,8 +18,6 @@ public class ZoneManager : MonoBehaviour
             zt.GetComponent<ZoneScript>().zoneManager = this;
         }
 
-        //DEBUG
-        this.StartWaiting();
     }
 
     // Update is called once per frame

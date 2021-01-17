@@ -13,6 +13,22 @@ public class NutellaScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        this.checkCol();
+    }
+
+    private void checkCol()
+    {
+        Collider[] hitcols = Physics.OverlapSphere(
+            this.transform.position,
+            this.GetComponent<SphereCollider>().radius
+        );
+        foreach (Collider col in hitcols)
+        {
+            if(col.tag == "Head")
+            {
+                col.GetComponentInParent<PlayerController>().eatNutella();
+                Destroy(this);
+            }
+        }
     }
 }
