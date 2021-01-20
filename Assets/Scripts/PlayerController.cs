@@ -334,7 +334,9 @@ public class PlayerController : MonoBehaviour
         foreach (Transform zone in zoneManager.transform)
         {
             Bounds zb = zone.gameObject.GetComponent<Collider>().bounds;
-            if (zb.Contains(Head.transform.position))
+            Vector3 clippedHead =
+                Vector3.Max(Vector3.Min(Head.transform.position,maxPos),minPos);
+            if (zb.Contains(clippedHead))
             {
                 zone.gameObject.GetComponent<ZoneScript>().InZone();
             }
