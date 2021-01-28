@@ -118,36 +118,41 @@ public class PlayerController : MonoBehaviour
         gameinfo_json = new GameInfo_JSON();
         msginfo_json = new MessageInfo_JSON();
 
+        //DEBUG
+        Application.targetFrameRate = 30;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        // To make sure physics is fast
-        if (Time.deltaTime < Time.fixedDeltaTime)
-        {
-            Time.fixedDeltaTime = Time.deltaTime;
-        }
-        while (true)
-        {
-            receive();
-            if (control_json.render)
-            {
-                control_json.render = false;
-                send_render();
-            }
-            else
-            {
-                if (control_json.reset)
-                {
-                    control_json.reset=false;
-                    this.resetGame();
-                }
-                break;
-            }
-        }
+        // // To make sure physics is fast
+        // if (Time.deltaTime < Time.fixedDeltaTime)
+        // {
+        //     Time.fixedDeltaTime = Time.deltaTime;
+        // }
+        // while (true)
+        // {
+        //     receive();
+        //     if (control_json.render)
+        //     {
+        //         control_json.render = false;
+        //         send_render();
+        //     }
+        //     else
+        //     {
+        //         if (control_json.reset)
+        //         {
+        //             control_json.reset=false;
+        //             this.resetGame();
+        //         }
+        //         break;
+        //     }
+        // }
         
+        //DEBUG
+        control_json.turn = 1.0f;
+        control_json.move = 0.3f;
 
         transform.Rotate(0,control_json.turn,0);
         check_col();
