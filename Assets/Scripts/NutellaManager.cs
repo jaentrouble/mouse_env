@@ -11,13 +11,21 @@ public class NutellaManager : MonoBehaviour
     // Player object needed
     // to make sure the apple is not spawned on the player
     public GameObject player;
+    public int nutellaNumber = 1;
 
-    private List<GameObject> nutellas;
+    private GameObject[] nutellas;
 
     // Start is called before the first frame update
     void Start()
     {
-        nutellas = new List<GameObject>();
+        nutellas = new GameObject[nutellaNumber];
+        for(int i=0;i<nutellaNumber;i++)
+        {
+            nutellas[i] =
+                Instantiate(nutellaPrefab, getNewPos(), nutellaPrefab.transform.rotation);
+            NutellaScript n = nutellas[i].GetComponent<NutellaScript>();
+            n.manager = this;
+        }
     }
 
     // Update is called once per frame
@@ -43,23 +51,12 @@ public class NutellaManager : MonoBehaviour
         }
     }
 
-    public void newNutella(int numNutella)
+    public void resetNutellas()
     {
-        for(int i=0;i<numNutella;i++)
+        foreach(GameObject nutella in nutellas)
         {
-            nutellas.Add(
-            Instantiate(nutellaPrefab, getNewPos(), nutellaPrefab.transform.rotation));
+            nutella.GetComponent<NutellaScript>().resetPos();
         }
-        
-    }
-
-    public void clearNutella()
-    {
-        foreach(GameObject nut in nutellas)
-        {
-            Destroy(nut);
-        }
-        nutellas = new List<GameObject>();
     }
 
 }

@@ -48,8 +48,6 @@ public class PlayerController : MonoBehaviour
     public Camera cam_obs;
     public Camera cam_render;
 
-    public GameObject zoneManager;
-
     public NutellaManager nutellaManager;
     public float nutellaReward = 10.0f;
 
@@ -150,7 +148,6 @@ public class PlayerController : MonoBehaviour
         
 
         transform.Rotate(0,control_json.turn,0);
-        check_col();
         transform.Translate(0,0,control_json.move);
         
 
@@ -329,28 +326,9 @@ public class PlayerController : MonoBehaviour
         transform.position = new_pos;
     }
     
-    private void check_col()
-    {
-        foreach (Transform zone in zoneManager.transform)
-        {
-            Bounds zb = zone.gameObject.GetComponent<Collider>().bounds;
-            Vector3 clippedHead =
-                Vector3.Max(Vector3.Min(Head.transform.position,maxPos),minPos);
-            if (zb.Contains(clippedHead))
-            {
-                zone.gameObject.GetComponent<ZoneScript>().InZone();
-            }
-            else
-            {
-                zone.gameObject.GetComponent<ZoneScript>().NotInZone();
-            }
-        }
-
-    }
     public void eatNutella()
     {
         gameinfo_json.reward += nutellaReward;
-        this.doneGame();
     }
 
     private void doneGame()
@@ -361,8 +339,7 @@ public class PlayerController : MonoBehaviour
     private void resetGame()
     {
         this.setNewPos();
-        nutellaManager.clearNutella();
-        zoneManager.GetComponent<ZoneManager>().StartWaiting();
+        nutellaManager.resetNutellas();
         this.gameinfo_json = new GameInfo_JSON();
     }
 

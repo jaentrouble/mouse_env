@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NutellaScript : MonoBehaviour
 {
+    public NutellaManager manager;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +28,13 @@ public class NutellaScript : MonoBehaviour
             if(col.tag == "Head")
             {
                 col.GetComponentInParent<PlayerController>().eatNutella();
-                Destroy(this);
+                this.resetPos();
             }
         }
+    }
+
+    public void resetPos()
+    {
+        transform.position = manager.getNewPos();
     }
 }
