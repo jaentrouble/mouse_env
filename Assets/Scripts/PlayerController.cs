@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     public Window_size obs_info;
 
     private GameObject Head;
+    private TrailRenderer trail;
 
     private Control_JSON control_json;
     private GameInfo_JSON gameinfo_json;
@@ -95,6 +96,7 @@ public class PlayerController : MonoBehaviour
     {
 
         this.Head = transform.Find("Head").gameObject;
+        this.trail = transform.Find("Trail").GetComponent<TrailRenderer>();
 
         rt_obs = new RenderTexture(obs_info.width,obs_info.height,24,RenderTextureFormat.ARGB32);
         cam_obs.targetTexture = rt_obs;
@@ -118,41 +120,48 @@ public class PlayerController : MonoBehaviour
         gameinfo_json = new GameInfo_JSON();
         msginfo_json = new MessageInfo_JSON();
 
-        //DEBUG
-        Application.targetFrameRate = 30;
+        // //DEBUG
+        // Application.targetFrameRate = 10;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        // // To make sure physics is fast
-        // if (Time.deltaTime < Time.fixedDeltaTime)
-        // {
-        //     Time.fixedDeltaTime = Time.deltaTime;
-        // }
-        // while (true)
-        // {
-        //     receive();
-        //     if (control_json.render)
-        //     {
-        //         control_json.render = false;
-        //         send_render();
-        //     }
-        //     else
-        //     {
-        //         if (control_json.reset)
-        //         {
-        //             control_json.reset=false;
-        //             this.resetGame();
-        //         }
-        //         break;
-        //     }
-        // }
+        if (this.trail.emitting == false)
+        {
+            this.trail.emitting = true;
+        }
+
+        // To make sure physics is fast
+        if (Time.deltaTime < Time.fixedDeltaTime)
+        {
+            Time.fixedDeltaTime = Time.deltaTime;
+        }
+        // Player movement is 'normal speed' in 10fps
+        Time.timeScale = 0.1f/Time.deltaTime;
+        while (true)
+        {
+            receive();
+            if (control_json.render)
+            {
+                control_json.render = false;
+                send_render();
+            }
+            else
+            {
+                if (control_json.reset)
+                {
+                    control_json.reset=false;
+                    this.resetGame();
+                }
+                break;
+            }
+        }
         
-        //DEBUG
-        control_json.turn = 1.0f;
-        control_json.move = 0.3f;
+        // //DEBUG
+        // control_json.turn = 1.0f;
+        // control_json.move = 0.3f;
 
         transform.Rotate(0,control_json.turn,0);
         check_col();
@@ -326,6 +335,8 @@ public class PlayerController : MonoBehaviour
     }
     public void setNewPos()
     {
+        this.trail.emitting = false;
+        this.trail.Clear();
         Vector3 new_pos = new Vector3(
             UnityEngine.Random.Range(minPos.x,maxPos.x),
             minPos.y,
