@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     private UTF8Encoding encoder = new UTF8Encoding();
 
     // Server
-    private int port = 7777;
+    public int port = 7777;
     private string ip = "127.0.0.1";
     private TcpClient client;
     private NetworkStream net_stream;

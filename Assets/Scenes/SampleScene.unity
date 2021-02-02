@@ -2851,11 +2851,12 @@ MonoBehaviour:
   nutellaManager: {fileID: 132251843}
   nutellaReward: 10
   render_info:
-    width: 640
-    height: 640
+    width: 360
+    height: 360
   obs_info:
     width: 80
     height: 80
+  port: 7778
 --- !u!136 &1322501926
 CapsuleCollider:
   m_ObjectHideFlags: 0
