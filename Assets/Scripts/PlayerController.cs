@@ -149,6 +149,7 @@ public class PlayerController : MonoBehaviour
 
         transform.Rotate(0,control_json.turn,0);
         transform.Translate(0,0,control_json.move);
+        this.perStepReward();
         
 
         send();
@@ -341,6 +342,14 @@ public class PlayerController : MonoBehaviour
         this.setNewPos();
         nutellaManager.resetNutellas();
         this.gameinfo_json = new GameInfo_JSON();
+    }
+
+    private void perStepReward()
+    {
+        float dist2Nutella = nutellaManager.minDistToNutella(
+            this.Head.transform.position
+        );
+        gameinfo_json.reward -= dist2Nutella/10;
     }
 
 }

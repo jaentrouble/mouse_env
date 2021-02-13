@@ -59,4 +59,22 @@ public class NutellaManager : MonoBehaviour
         }
     }
 
+    public float minDistToNutella(Vector3 pos)
+    {
+        float[] dists = new float[nutellaNumber];
+        for(int i=0;i<nutellaNumber;i++)
+        {
+            dists[i] =
+                Vector3.Distance(pos, nutellas[i].transform.position);
+        }
+        float minDist = dists[0];
+        foreach(float d in dists)
+        {
+            if(d < minDist)
+            {
+                minDist = d;
+            }
+        }
+        return minDist;
+    }
 }
