@@ -14,10 +14,9 @@ public class NutellaScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.checkCol();
     }
 
-    private void checkCol()
+    public void checkCol()
     {
         Collider[] hitcols = Physics.OverlapSphere(
             this.transform.position,

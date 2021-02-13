@@ -77,4 +77,12 @@ public class NutellaManager : MonoBehaviour
         }
         return minDist;
     }
+
+    public void checkAllCol()
+    {
+        foreach(GameObject nutella in nutellas)
+        {
+            nutella.GetComponent<NutellaScript>().checkCol();
+        }
+    }
 }

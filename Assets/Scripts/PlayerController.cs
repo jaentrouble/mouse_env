@@ -149,8 +149,10 @@ public class PlayerController : MonoBehaviour
 
         transform.Rotate(0,control_json.turn,0);
         transform.Translate(0,0,control_json.move);
-        this.perStepReward();
-        
+        limitPos();
+
+        perStepReward();
+        nutellaManager.checkAllCol();
 
         send();
         
@@ -160,12 +162,7 @@ public class PlayerController : MonoBehaviour
     }
     private void LateUpdate() 
     {
-        transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
-        Vector3 newpos = new Vector3(transform.localPosition.x,
-                                    minPos.y,
-                                    transform.localPosition.z);
-        transform.localPosition = 
-            Vector3.Max(Vector3.Min(newpos,maxPos),minPos);
+        
     }
     void OnApplicationQuit() 
     {
@@ -325,6 +322,17 @@ public class PlayerController : MonoBehaviour
             UnityEngine.Random.Range(minPos.z,maxPos.z)
         );
         transform.position = new_pos;
+    }
+
+    private void limitPos()
+    {
+        this.transform.localEulerAngles = 
+            new Vector3(0, this.transform.localEulerAngles.y, 0);
+        Vector3 newpos = new Vector3(this.transform.localPosition.x,
+                                    minPos.y,
+                                    this.transform.localPosition.z);
+        this.transform.localPosition = 
+            Vector3.Max(Vector3.Min(newpos,maxPos),minPos);
     }
     
     public void eatNutella()
