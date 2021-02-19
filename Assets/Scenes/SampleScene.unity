@@ -1070,6 +1070,7 @@ MonoBehaviour:
   obs_info:
     width: 80
     height: 80
+  port: 7777
 --- !u!136 &1322501926
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1093,8 +1094,8 @@ Rigidbody:
   m_GameObject: {fileID: 1322501923}
   serializedVersion: 2
   m_Mass: 20
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: Infinity
+  m_AngularDrag: Infinity
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
