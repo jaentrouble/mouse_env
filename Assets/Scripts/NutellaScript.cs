@@ -26,7 +26,7 @@ public class NutellaScript : MonoBehaviour
         {
             if(col.tag == "Head")
             {
-                col.GetComponentInParent<PlayerController>().eatNutella();
+                // col.GetComponentInParent<PlayerController>().eatNutella();
                 this.resetPos();
             }
         }

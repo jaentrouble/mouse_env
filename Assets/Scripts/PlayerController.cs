@@ -43,13 +43,11 @@ public class MessageInfo_JSON
 }
 public class PlayerController : MonoBehaviour
 {
-    public Vector3 maxPos;
-    public Vector3 minPos;
+    public float FixedYPos;
+    public GameObject StartPoint;
     public Camera cam_obs;
     public Camera cam_render;
 
-    public NutellaManager nutellaManager;
-    public float nutellaReward = 10.0f;
 
     public Window_size render_info;
     public Window_size obs_info;
@@ -152,17 +150,15 @@ public class PlayerController : MonoBehaviour
         limitPos();
 
         perStepReward();
-        nutellaManager.checkAllCol();
 
-        send();
-        
-        // Reset reward after sending
-        gameinfo_json.reward = 0.0f;
 
     }
     private void LateUpdate() 
     {
+        send();
         
+        // Reset reward after sending
+        gameinfo_json.reward = 0.0f;
     }
     void OnApplicationQuit() 
     {
@@ -317,9 +313,9 @@ public class PlayerController : MonoBehaviour
     public void setNewPos()
     {
         Vector3 new_pos = new Vector3(
-            UnityEngine.Random.Range(minPos.x,maxPos.x),
-            minPos.y,
-            UnityEngine.Random.Range(minPos.z,maxPos.z)
+            StartPoint.transform.position.x,
+            FixedYPos,
+            StartPoint.transform.position.z
         );
         transform.position = new_pos;
     }
@@ -329,17 +325,11 @@ public class PlayerController : MonoBehaviour
         this.transform.localEulerAngles = 
             new Vector3(0, this.transform.localEulerAngles.y, 0);
         Vector3 newpos = new Vector3(this.transform.localPosition.x,
-                                    minPos.y,
+                                    FixedYPos,
                                     this.transform.localPosition.z);
-        this.transform.localPosition = 
-            Vector3.Max(Vector3.Min(newpos,maxPos),minPos);
+        this.transform.localPosition = newpos;
     }
     
-    public void eatNutella()
-    {
-        gameinfo_json.reward += nutellaReward;
-    }
-
     private void doneGame()
     {
         gameinfo_json.done = true;
@@ -348,7 +338,6 @@ public class PlayerController : MonoBehaviour
     private void resetGame()
     {
         this.setNewPos();
-        nutellaManager.resetNutellas();
         this.gameinfo_json = new GameInfo_JSON();
     }
 

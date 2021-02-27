@@ -19,8 +19,8 @@ TagManager:
   - 
   - Player
   - Roof
-  - 
-  - 
+  - PostProcessing
+  - debug_light
   - 
   - 
   - 
