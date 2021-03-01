@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public GameObject StartPoint;
     public Camera cam_obs;
     public Camera cam_render;
+    public MapManager mapManager;
 
 
     public Window_size render_info;
@@ -114,6 +115,7 @@ public class PlayerController : MonoBehaviour
         gameinfo_json = new GameInfo_JSON();
         msginfo_json = new MessageInfo_JSON();
 
+        this.mapManager.ResetMap();
         
     }
 
@@ -149,7 +151,7 @@ public class PlayerController : MonoBehaviour
         transform.Translate(0,0,control_json.move);
         limitPos();
 
-        perStepReward();
+        Step();
 
 
     }
@@ -318,6 +320,8 @@ public class PlayerController : MonoBehaviour
             StartPoint.transform.position.z
         );
         transform.position = new_pos;
+        transform.eulerAngles = 
+            new Vector3(0, StartPoint.transform.eulerAngles.y,0);
     }
 
     private void limitPos()
@@ -339,11 +343,16 @@ public class PlayerController : MonoBehaviour
     {
         this.setNewPos();
         this.gameinfo_json = new GameInfo_JSON();
+        this.mapManager.ResetMap();
     }
 
-    private void perStepReward()
+    private void Step()
     {
-        
+        this.gameinfo_json.reward += this.mapManager.checkReward(
+            this.Head.transform.position
+        );
+        if (this.mapManager.done)
+            this.doneGame();
     }
 
 }

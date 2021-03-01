@@ -20,7 +20,7 @@ TagManager:
   - Player
   - Roof
   - PostProcessing
-  - debug_light
+  - unseen_by_player
   - 
   - 
   - 
