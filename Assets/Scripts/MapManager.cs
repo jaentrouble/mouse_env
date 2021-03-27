@@ -5,8 +5,8 @@ using UnityEngine;
 public class MapManager : MonoBehaviour
 {
     public RoomManager StartRoom;
-    public RoomManager LongRoom;
-    public RoomManager ShortRoom;
+    public RoomManager ClockRoom;
+    public RoomManager CounterClockRoom;
     public RoomManager FarRoom;
     private List<RoomManager> allRooms;
     public ResetMode resetMode = ResetMode.Random;
@@ -23,28 +23,28 @@ public class MapManager : MonoBehaviour
     }
     public enum ResetMode
     {
-        Long,
-        Short,
+        Clock,
+        CounterClock,
         Random
     }
     public enum Path
     {
-        Long,
-        Short
+        Clock,
+        CounterClock
     }
     // Start is called before the first frame update
     void Start()
     {
         allRooms = new List<RoomManager>(){
-            StartRoom, LongRoom, ShortRoom, FarRoom
+            StartRoom, ClockRoom, CounterClockRoom, FarRoom
         };
 
         pathDict = new Dictionary<Path, List<RoomManager>>();
-        pathDict.Add(Path.Long, new List<RoomManager>(){
-            StartRoom, LongRoom, FarRoom
+        pathDict.Add(Path.Clock, new List<RoomManager>(){
+            StartRoom, ClockRoom, FarRoom
         });
-        pathDict.Add(Path.Short, new List<RoomManager>(){
-            StartRoom, ShortRoom, FarRoom
+        pathDict.Add(Path.CounterClock, new List<RoomManager>(){
+            StartRoom, CounterClockRoom, FarRoom
         });
 
         this.ResetMap();
@@ -60,11 +60,11 @@ public class MapManager : MonoBehaviour
         RoomManager.DirectionMode direction;
         switch(targetPath)
         {
-            case Path.Long:
-                direction = RoomManager.DirectionMode.Long;
+            case Path.Clock:
+                direction = RoomManager.DirectionMode.Clock;
                 break;
-            case Path.Short:
-                direction = RoomManager.DirectionMode.Short;
+            case Path.CounterClock:
+                direction = RoomManager.DirectionMode.CounterClock;
                 break;
             default:
                 throw new System.ArgumentException(
@@ -93,22 +93,23 @@ public class MapManager : MonoBehaviour
             room.SetMode(RoomManager.DirectionMode.End,
                          RoomManager.ButtonMode.Off);
         }
+        Debug.Log("here");
         switch(this.resetMode)
         {
-            case ResetMode.Long:
-                this.SetPath(Path.Long);
+            case ResetMode.Clock:
+                this.SetPath(Path.Clock);
                 break;
-            case ResetMode.Short:
-                this.SetPath(Path.Short);
+            case ResetMode.CounterClock:
+                this.SetPath(Path.CounterClock);
                 break;
             case ResetMode.Random:
                 if(Random.value<0.5)
                 {
-                    this.SetPath(Path.Long);
+                    this.SetPath(Path.Clock);
                 }
                 else
                 {
-                    this.SetPath(Path.Short);
+                    this.SetPath(Path.CounterClock);
                 }
                 break;
             default:

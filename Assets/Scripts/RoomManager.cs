@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    public GameObject[] CorridorLedLong;
-    public GameObject[] CorridorLedShort;
-    public GameObject ButtonLedLong;
-    public GameObject ButtonLedShort;
-    public GameObject ButtonLong;
-    public GameObject ButtonShort;
+    public GameObject ClockwiseLed;
+    public GameObject CounterClockwiseLed;
+    public GameObject ButtonLedClock;
+    public GameObject ButtonLedCounterClock;
+    public GameObject ButtonClock;
+    public GameObject ButtonCounterClock;
     public Color EmissionColor = new Color(0.25f,0.25f,0.25f);
     private List<GameObject> AllLeds = new List<GameObject>();
     private DirectionMode CurrentDirection = DirectionMode.End;
@@ -22,25 +22,25 @@ public class RoomManager : MonoBehaviour
 
     public enum DirectionMode
     {
-        Long,
-        Short,
+        Clock,
+        CounterClock,
         End
     }
 
     public enum ButtonMode
     {
-        Long,
-        Short,
+        Clock,
+        CounterClock,
         Random,
         Off
     }
     // Start is called before the first frame update
     void Start()
     {
-        AllLeds.AddRange(CorridorLedLong);
-        AllLeds.AddRange(CorridorLedShort);
-        AllLeds.Add(ButtonLedLong);
-        AllLeds.Add(ButtonLedShort);
+        AllLeds.Add(ClockwiseLed);
+        AllLeds.Add(CounterClockwiseLed);
+        AllLeds.Add(ButtonLedClock);
+        AllLeds.Add(ButtonLedCounterClock);
         foreach (GameObject Led in AllLeds)
         {
             Renderer ren = Led.GetComponent<Renderer>();
@@ -60,11 +60,11 @@ public class RoomManager : MonoBehaviour
         GameObject targetButton;
         switch(this.CurrentButtonMode)
         {
-            case ButtonMode.Long:
-                targetButton = this.ButtonLong;
+            case ButtonMode.Clock:
+                targetButton = this.ButtonClock;
                 break;
-            case ButtonMode.Short:
-                targetButton = this.ButtonShort;
+            case ButtonMode.CounterClock:
+                targetButton = this.ButtonCounterClock;
                 break;
             default:
                 return false;
@@ -116,22 +116,16 @@ public class RoomManager : MonoBehaviour
         DynamicGI.UpdateEnvironment();
     }
 
-    public void CorridorLongSwitch(bool On)
+    public void ClockwiseLedSwitch(bool On)
     {
-        foreach(GameObject Led in this.CorridorLedLong)
-        {
-            if (On) TurnOnLed(Led);
-            else TurnOffLed(Led);
-        }
+        if (On) TurnOnLed(ClockwiseLed);
+        else TurnOffLed(ClockwiseLed);
     }
 
-    public void CorridorShortSwitch(bool On)
+    public void CounterClockwiseLedSwitch(bool On)
     {
-        foreach(GameObject Led in this.CorridorLedShort)
-        {
-            if(On) TurnOnLed(Led);
-            else TurnOffLed(Led);
-        }
+            if(On) TurnOnLed(CounterClockwiseLed);
+            else TurnOffLed(CounterClockwiseLed);
     }
     private void ButtonPushed(GameObject targetButton)
     {
@@ -157,23 +151,23 @@ public class RoomManager : MonoBehaviour
     {
         switch (mode)
         {
-            case ButtonMode.Long:
-                TurnOnLed(this.ButtonLedLong);
-                TurnOffLed(this.ButtonLedShort);
+            case ButtonMode.Clock:
+                TurnOnLed(this.ButtonLedClock);
+                TurnOffLed(this.ButtonLedCounterClock);
                 break;
-            case ButtonMode.Short:
-                TurnOffLed(this.ButtonLedLong);
-                TurnOnLed(this.ButtonLedShort);
+            case ButtonMode.CounterClock:
+                TurnOffLed(this.ButtonLedClock);
+                TurnOnLed(this.ButtonLedCounterClock);
                 break;
             case ButtonMode.Off:
-                TurnOffLed(this.ButtonLedLong);
-                TurnOffLed(this.ButtonLedShort);
+                TurnOffLed(this.ButtonLedClock);
+                TurnOffLed(this.ButtonLedCounterClock);
                 break;
             case ButtonMode.Random:
                 if(Random.value < 0.5)
-                    this.SetButtonMode(ButtonMode.Long);
+                    this.SetButtonMode(ButtonMode.Clock);
                 else
-                    this.SetButtonMode(ButtonMode.Short);
+                    this.SetButtonMode(ButtonMode.CounterClock);
                 // Becareful to not set the current mode to Random
                 // Return here
                 return;
@@ -185,17 +179,17 @@ public class RoomManager : MonoBehaviour
     {
         switch(mode)
         {
-            case DirectionMode.Long:
-                this.CorridorLongSwitch(true);
-                this.CorridorShortSwitch(false);
+            case DirectionMode.Clock:
+                this.ClockwiseLedSwitch(true);
+                this.CounterClockwiseLedSwitch(false);
                 break;
-            case DirectionMode.Short:
-                this.CorridorLongSwitch(false);
-                this.CorridorShortSwitch(true);
+            case DirectionMode.CounterClock:
+                this.ClockwiseLedSwitch(false);
+                this.CounterClockwiseLedSwitch(true);
                 break;
             case DirectionMode.End:
-                this.CorridorLongSwitch(false);
-                this.CorridorShortSwitch(false);
+                this.ClockwiseLedSwitch(false);
+                this.CounterClockwiseLedSwitch(false);
                 break;
         }
         this.CurrentDirection = mode;
@@ -209,8 +203,8 @@ public class RoomManager : MonoBehaviour
     public void ResetRoom()
     {
         this.SetMode(DirectionMode.End, ButtonMode.Off);
-        this.ButtonUnPushed(this.ButtonLong);
-        this.ButtonUnPushed(this.ButtonShort);
+        this.ButtonUnPushed(this.ButtonClock);
+        this.ButtonUnPushed(this.ButtonCounterClock);
         this._roomEntered = false;
     }
 

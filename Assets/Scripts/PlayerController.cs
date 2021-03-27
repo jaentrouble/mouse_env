@@ -115,8 +115,6 @@ public class PlayerController : MonoBehaviour
         gameinfo_json = new GameInfo_JSON();
         msginfo_json = new MessageInfo_JSON();
 
-        this.mapManager.ResetMap();
-        
     }
 
     // Update is called once per frame
