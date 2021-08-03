@@ -93,7 +93,6 @@ public class MapManager : MonoBehaviour
             room.SetMode(RoomManager.DirectionMode.End,
                          RoomManager.ButtonMode.Off);
         }
-        Debug.Log("here");
         switch(this.resetMode)
         {
             case ResetMode.Clock:
