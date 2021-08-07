@@ -74,6 +74,10 @@ public class PlayerController : MonoBehaviour
     private Color32[] obs_array;
     private byte[] obs_bytes;
 
+    //Snapshot - Whisker
+    public WhiskerScript whisker;
+    private byte[] whi_bytes;
+
     private WaitForEndOfFrame frameEnd = new WaitForEndOfFrame();
     private int single_length = Marshal.SizeOf(typeof(Color32));
     private int total_length;
@@ -243,9 +247,14 @@ public class PlayerController : MonoBehaviour
         int gameinfo_bytecount = encoder.GetBytes(gameinfo_str,0,gameinfo_str.Length,gameinfo_byte,0);
 
         ObsCapture.MoveNext();
-        byte[] to_send = new byte[obs_bytes.Length+gameinfo_bytecount];
+
+        //Whisker
+        this.getWhisker();
+        
+        byte[] to_send = new byte[obs_bytes.Length+whi_bytes.Length+gameinfo_bytecount];
         Buffer.BlockCopy(obs_bytes,0,to_send,0,obs_bytes.Length);
-        Buffer.BlockCopy(gameinfo_byte,0,to_send,obs_bytes.Length,gameinfo_bytecount);
+        Buffer.BlockCopy(whi_bytes,0,to_send,obs_bytes.Length,whi_bytes.Length);
+        Buffer.BlockCopy(gameinfo_byte,0,to_send,obs_bytes.Length+whi_bytes.Length,gameinfo_bytecount);
 
         // msginfo_json.length = to_send.Length;
         // string msginfo_str = JsonUtility.ToJson(msginfo_json);
@@ -342,6 +351,13 @@ public class PlayerController : MonoBehaviour
         this.setNewPos();
         this.gameinfo_json = new GameInfo_JSON();
         this.mapManager.ResetMap();
+    }
+
+    private void getWhisker()
+    {
+        float[] whi_fl = whisker.Sensor();
+        whi_bytes = new byte[whi_fl.Length * sizeof(float)];
+        Buffer.BlockCopy(whi_fl, 0, whi_bytes, 0, whi_bytes.Length);
     }
 
     private void Step()

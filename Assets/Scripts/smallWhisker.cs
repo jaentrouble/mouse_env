@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class smallWhisker : MonoBehaviour
 {
+    Renderer rend;
+
+    private float max_distance;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rend = transform.Find("Cylinder").GetComponent<Renderer>();
+        max_distance = this.transform.localScale.z;
     }
 
     // Update is called once per frame
@@ -21,13 +25,15 @@ public class smallWhisker : MonoBehaviour
         RaycastHit hit;
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
         LayerMask noPlayer = ~LayerMask.GetMask("Player");
-        if (Physics.Raycast(transform.position, fwd, out hit, 1, noPlayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(transform.position, fwd, out hit, max_distance, noPlayer, QueryTriggerInteraction.Ignore))
         {
+            rend.material.color = Color.red;
             return hit.distance;
         }
         else
         {
-            return 1.0f;
+            rend.material.color = Color.white;
+            return max_distance;
         }
     }
 

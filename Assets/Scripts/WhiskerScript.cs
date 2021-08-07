@@ -17,5 +17,16 @@ public class WhiskerScript : MonoBehaviour
     {
         
     }
+
+    public float[] Sensor()
+    {
+        float[] output = new float[allWhiskers.Count];
+        for(int i=0;i<allWhiskers.Count;i++)
+        {
+            output[i] = allWhiskers[i].GetComponent<smallWhisker>().raycast();
+        }
+
+        return output;
+    }
     
 }
